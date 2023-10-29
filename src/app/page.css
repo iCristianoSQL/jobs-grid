@@ -1,0 +1,64 @@
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+section {
+  margin: auto;
+  width: 850px;
+  height: 600px;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.linha-da-tabla {
+  width: 800px;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.informacao-da-tabela {
+  width: 100px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.empregos-informacoes {
+  width: 800px;
+  background-color: rgb(14, 14, 14);
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.informacao-do-item {
+  width: 100px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.obteve-resposta {
+  color: green;
+  cursor: pointer;
+}
+
+.nao-obteve-resposta {
+  color: red;
+  cursor: pointer;
+}
+
+a {
+  background-color: #002f64;
+  text-decoration: none;
+  padding: 0.2rem 1rem 0.2rem 1rem;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+a:hover {
+  filter: brightness(1.2);
+}
