@@ -46,8 +46,6 @@ export const JobDrawer = ({
 
   });
 
-  console.log(data)
-
   useEffect(() => {
     setValue("company", data.company);
     setValue("hasResponse", data.hasResponse);
