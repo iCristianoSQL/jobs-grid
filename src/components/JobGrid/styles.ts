@@ -39,20 +39,26 @@ export const RowInfos = styled.div`
 `;
 
 export const Icons = styled.div`
-    display: flex;
-    gap: 4px;
+  display: flex;
+  gap: 4px;
 
-    button {
-        width: fit-content;
-    }
-`
+  button {
+    border: none;
+    width: fit-content;
+  }
+`;
 
 export const NavBar = styled.nav`
   width: 100%;
-
+  padding: 0.5rem;
+  display: flex;
 
   button {
     padding: 0.5rem 1rem;
     border: 1px solid white;
+    align-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
   }
 `;

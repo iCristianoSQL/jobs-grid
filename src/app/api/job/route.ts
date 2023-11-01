@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       data: requestData,
     });
 
-    return NextResponse.json({ job: newJob }, { status: 201 });
+    return NextResponse.json({ job: newJob, message: `Job ${newJob.title} adicionado com sucesso!` }, { status: 201 });
   } catch (error) {
     console.error("Erro ao criar o Job:", error);
     return NextResponse.json({ error: "Erro ao criar o Job" }, { status: 500 });
@@ -30,6 +30,12 @@ export async function DELETE(request: NextRequest) {
     if (!jobId) {
       return NextResponse.json({ error: "ID não fornecido" }, { status: 400 });
     }
+    
+    const jobTitle = await prisma.job.findFirst({
+      where: {
+        id: jobId
+      }
+    });
 
     await prisma.job.delete({
       where: {
@@ -37,9 +43,9 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ message: "Job excluído com sucesso" }, { status: 200 });
+
+    return NextResponse.json({ message: `Job ${jobTitle?.title} excluído com sucesso!` }, { status: 200 });
   } catch (error) {
-    console.error("Erro ao excluir o Job:", error);
     return NextResponse.json({ error: "Erro ao excluir o Job" }, { status: 500 });
   }
 }

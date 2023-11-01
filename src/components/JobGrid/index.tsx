@@ -1,6 +1,5 @@
 import { JobService } from "@/services/job";
 import * as S from "./styles";
-import { url } from "@/utils/url";
 import Image from "next/image";
 import { tableInfos } from "./content";
 import { Spinner } from "../Spinner";
@@ -8,32 +7,10 @@ import { JobDrawer } from "../Drawers/JobDrawer";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const dados = {
-  title: "Desenvolvedor Web",
-  company: "Empresa XYZ",
-  hasResponse: true,
-  isClosed: false,
-  recruiterLinkedIn: "https://www.linkedin.com/recruiter",
-  techLeadLinkedIn: "https://www.linkedin.com/techlead",
-  jobDetailsURL: "https://www.empresaxyz.com/vagas/detalhes",
-};
-
 export const JobGrid = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const deleteJob = JobService.useDeleteJob();
   const { data: jobs, isLoading, refetch } = JobService.useGetJobs();
-  async function enviarDados() {
-    try {
-      const res = await fetch(`${url}/job`, {
-        method: "POST",
-        body: JSON.stringify(dados),
-      });
-      console.log("TRA AQ A RES", res);
-      refetch();
-    } catch (error) {
-      console.error("Erro na solicitação:", error);
-    }
-  }
 
   const handleDelete = async (id: string) => {
     try {
@@ -55,7 +32,7 @@ export const JobGrid = () => {
   return (
     <S.Container>
       <S.NavBar>
-        <button>
+        <button onClick={() => jobDrawer.handleOpenDrawer()}>
           Adicionar <AiOutlinePlus />
         </button>
       </S.NavBar>
@@ -65,7 +42,7 @@ export const JobGrid = () => {
         })}
       </S.TableHeader>
       {jobs?.data?.map((element) => {
-        const applicationDate = new Date(element.applicationDate);
+        const applicationDate = new Date(element.applicationDate ?? new Date());
         const day = String(applicationDate.getDate()).padStart(2, "0");
         const month = String(applicationDate.getMonth() + 1).padStart(2, "0");
         const year = applicationDate.getFullYear();
@@ -76,7 +53,7 @@ export const JobGrid = () => {
         return (
           <S.JobInfos key={element.id}>
             <S.Icons>
-              <button onClick={() => handleDelete(element.id)}>
+              <button onClick={() => handleDelete(element.id ?? "")}>
                 <Image
                   src="/delete-icon.png"
                   width={20}

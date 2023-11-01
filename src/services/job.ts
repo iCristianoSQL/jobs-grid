@@ -1,25 +1,26 @@
 import { AxiosResponse } from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { api } from "./api";
+import { toast } from "react-toastify";
 
 type TJobs = {
-  data: {
-    id: string;
-    title: string;
-    company: string;
-    applicationDate: Date;
-    hasResponse: boolean;
-    isClosed: boolean;
-    recruiterLinkedIn: string;
-    techLeadLinkedIn: string;
-    jobDetailsURL: string;
-  }[];
+  id?: string;
+  title: string;
+  company: string;
+  applicationDate?: Date;
+  hasResponse: boolean;
+  isClosed: boolean;
+  recruiterLinkedIn: string;
+  techLeadLinkedIn: string;
+  jobDetailsURL: string;
 };
-
+type TJobsData = {
+  data: TJobs[];
+};
 export const JobService = {
   useGetJobs: () => {
-    return useQuery<TJobs>("jobs", async () => {
-      const response: AxiosResponse<TJobs> = await api.get("job");
+    return useQuery<TJobsData>("jobs", async () => {
+      const response: AxiosResponse<TJobsData> = await api.get("job");
       return response.data;
     });
   },
@@ -27,8 +28,22 @@ export const JobService = {
     const queryClient = useQueryClient();
     return useMutation((id: string) => api.delete(`job/?id=${id}`), {
       onSuccess: (data, variables, context) => {
-        console.log("Resposta da requisição:", data?.data.message);
+        toast.error(data?.data.message);
       },
     });
+  },
+  usePostJob: () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (dados: TJobs) => {
+        return api.post("job", dados);
+      },
+      {
+        onSuccess: (data) => {
+            toast.success(data.data.message)
+          queryClient.invalidateQueries("jobs");
+        },
+      }
+    );
   },
 };
