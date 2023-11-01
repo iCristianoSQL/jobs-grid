@@ -6,11 +6,17 @@ import { Spinner } from "../Spinner";
 import { JobDrawer } from "../Drawers/JobDrawer";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { TJobs } from "@/utils/types";
 
 export const JobGrid = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [id, setId] = useState("");
+  const [job, setJob] = useState<TJobs>({} as TJobs);
   const deleteJob = JobService.useDeleteJob();
   const { data: jobs, isLoading, refetch } = JobService.useGetJobs();
+  const { usePatchJob } = JobService;
+  const patchJob = usePatchJob();
 
   const handleDelete = async (id: string) => {
     try {
@@ -32,7 +38,13 @@ export const JobGrid = () => {
   return (
     <S.Container>
       <S.NavBar>
-        <button onClick={() => jobDrawer.handleOpenDrawer()}>
+        <button
+          onClick={() => {
+            setIsEditing(false);
+            setJob({} as TJobs);
+            jobDrawer.handleOpenDrawer();
+          }}
+        >
           Adicionar <AiOutlinePlus />
         </button>
       </S.NavBar>
@@ -61,7 +73,14 @@ export const JobGrid = () => {
                   alt="Delete Job Icon"
                 />
               </button>
-              <button onClick={() => jobDrawer.handleOpenDrawer()}>
+              <button
+                onClick={() => {
+                  setIsEditing(true);
+                  setId(element.id ?? "");
+                  setJob(element);
+                  jobDrawer.handleOpenDrawer();
+                }}
+              >
                 <Image
                   src="/edit-icon.png"
                   width={20}
@@ -74,6 +93,13 @@ export const JobGrid = () => {
             <S.RowInfos>{element.title}</S.RowInfos>
             <S.RowInfos>{formattedDate}</S.RowInfos>
             <S.RowInfos
+              onClick={async () =>
+                await patchJob.mutateAsync({
+                  ...element,
+                  id: element.id,
+                  hasResponse: !element.hasResponse,
+                })
+              }
               className={`informacao-do-item ${
                 hasResponse === "Sim"
                   ? "obteve-resposta"
@@ -83,6 +109,13 @@ export const JobGrid = () => {
               {hasResponse}
             </S.RowInfos>
             <S.RowInfos
+              onClick={async () =>
+                await patchJob.mutateAsync({
+                  ...element,
+                  id: element.id,
+                  isClosed: !element.isClosed,
+                })
+              }
               className={`informacao-do-item ${
                 isClosed === "Sim" ? "obteve-resposta" : "nao-obteve-resposta"
               }`}
@@ -121,7 +154,10 @@ export const JobGrid = () => {
       })}
       {isLoading && <Spinner />}
       <JobDrawer
+        id={id}
+        data={job}
         drawerOpen={drawerOpen}
+        isEditing={isEditing}
         handleCloseDrawer={jobDrawer.handleCloseDrawer}
       />
     </S.Container>

@@ -6,6 +6,8 @@ import { Form, InputBox } from "./styles";
 import { url } from "@/utils/url";
 import { JobService } from "@/services/job";
 import { toast } from "react-toastify";
+import { TJobs } from "@/utils/types";
+import { useEffect } from "react";
 
 const schema = z.object({
   company: z.string(),
@@ -18,29 +20,59 @@ const schema = z.object({
 });
 
 type FormData = z.infer<typeof schema>;
-export const JobDrawer = ({ drawerOpen, handleCloseDrawer }: TDrawer) => {
+interface IJobDrawer extends TDrawer {
+  isEditing: boolean;
+  data: TJobs;
+  id: string;
+}
+export const JobDrawer = ({
+  drawerOpen,
+  handleCloseDrawer,
+  isEditing,
+  data,
+  id,
+}: IJobDrawer) => {
   const {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       hasResponse: false,
       isClosed: false,
     },
+
   });
 
-  const { usePostJob } = JobService;
-  const enviarDadosMutation = usePostJob();
+  console.log(data)
+
+  useEffect(() => {
+    setValue("company", data.company);
+    setValue("hasResponse", data.hasResponse);
+    setValue("isClosed", data.isClosed);
+    setValue("jobDetailsURL", data.jobDetailsURL);
+    setValue("recruiterLinkedIn", data.recruiterLinkedIn);
+    setValue("techLeadLinkedIn", data.techLeadLinkedIn);
+    setValue("title", data.title);
+  }, [setValue, data]);
+
+  const { usePostJob, usePutJob } = JobService;
+  const putJob = usePostJob();
+  const updateJob = usePutJob();
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await enviarDadosMutation.mutateAsync(data);
+      if (isEditing && id) {
+        await updateJob.mutateAsync({ id, ...data });
+      } else {
+        await putJob.mutateAsync(data);
+      }
       reset();
       handleCloseDrawer();
     } catch (error) {
-      toast.error("Erro ao enviar dados:");
+      toast.error("Erro ao enviar dados");
     }
   };
 

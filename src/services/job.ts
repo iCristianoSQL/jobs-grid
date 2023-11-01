@@ -2,21 +2,8 @@ import { AxiosResponse } from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { api } from "./api";
 import { toast } from "react-toastify";
+import { TJobs, TJobsData } from "@/utils/types";
 
-type TJobs = {
-  id?: string;
-  title: string;
-  company: string;
-  applicationDate?: Date;
-  hasResponse: boolean;
-  isClosed: boolean;
-  recruiterLinkedIn: string;
-  techLeadLinkedIn: string;
-  jobDetailsURL: string;
-};
-type TJobsData = {
-  data: TJobs[];
-};
 export const JobService = {
   useGetJobs: () => {
     return useQuery<TJobsData>("jobs", async () => {
@@ -35,12 +22,39 @@ export const JobService = {
   usePostJob: () => {
     const queryClient = useQueryClient();
     return useMutation(
-      (dados: TJobs) => {
-        return api.post("job", dados);
+      (data: TJobs) => {
+        return api.post("job", data);
       },
       {
         onSuccess: (data) => {
-            toast.success(data.data.message)
+          toast.success(data.data.message);
+          queryClient.invalidateQueries("jobs");
+        },
+      }
+    );
+  },
+  usePutJob: () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: TJobs) => {
+        return api.put("job", data);
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message);
+          queryClient.invalidateQueries("jobs");
+        },
+      }
+    );
+  },
+  usePatchJob: () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: TJobs) => {
+        return api.patch("job", data);
+      },
+      {
+        onSuccess: (data) => {
           queryClient.invalidateQueries("jobs");
         },
       }
