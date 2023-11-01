@@ -23,3 +23,23 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  const jobId = request.nextUrl.searchParams.get("id");
+  try {
+    
+    if (!jobId) {
+      return NextResponse.json({ error: "ID não fornecido" }, { status: 400 });
+    }
+
+    await prisma.job.delete({
+      where: {
+        id: jobId,
+      },
+    });
+
+    return NextResponse.json({ message: "Job excluído com sucesso" }, { status: 200 });
+  } catch (error) {
+    console.error("Erro ao excluir o Job:", error);
+    return NextResponse.json({ error: "Erro ao excluir o Job" }, { status: 500 });
+  }
+}

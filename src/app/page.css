@@ -4,17 +4,6 @@ main {
   display: flex;
 }
 
-section {
-  margin: auto;
-  width: 850px;
-  height: 600px;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  overflow: auto;
-}
-
 .linha-da-tabla {
   width: 800px;
   display: flex;

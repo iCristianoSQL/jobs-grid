@@ -6,8 +6,15 @@
   color: white;
 }
 
-body, html {
+body,
+html {
   width: 100vw;
   height: 100vh;
-  background-color: #1F262E;
+  background-color: #1f262e;
+}
+
+button {
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
 }
