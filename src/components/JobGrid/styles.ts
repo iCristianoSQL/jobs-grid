@@ -31,11 +31,22 @@ export const JobInfos = styled.div`
   margin-bottom: 1rem;
   padding: 1rem 0;
 `;
-
-export const RowInfos = styled.div`
+interface RowInfosProps {
+  isSended?: boolean;
+}
+export const RowInfos = styled.div<RowInfosProps>`
   width: 100px;
   text-align: center;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  svg {
+    fill: ${(props) => (props.isSended ? 'green' : 'white')};
+    margin-top: 0.2rem;
+    cursor: pointer;
+  }
 `;
 
 export const Icons = styled.div`
@@ -52,6 +63,8 @@ export const NavBar = styled.nav`
   width: 100%;
   padding: 0.5rem;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   button {
     padding: 0.5rem 1rem;
@@ -60,5 +73,13 @@ export const NavBar = styled.nav`
     display: flex;
     align-items: center;
     gap: 0.2rem;
+  }
+`;
+
+export const Counters = styled.span`
+  border-bottom: 1px solid white;
+
+  b {
+    color: green;
   }
 `;

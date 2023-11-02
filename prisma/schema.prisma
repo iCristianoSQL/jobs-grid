@@ -20,4 +20,6 @@ model Job {
   recruiterLinkedIn String
   techLeadLinkedIn String
   jobDetailsURL String
+  sendedRecruiterMessage Boolean @default(false)
+  sendedTechLeadMessage Boolean @default(false)
 }
