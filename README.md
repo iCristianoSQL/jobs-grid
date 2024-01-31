@@ -6,7 +6,7 @@ Repositório de gerenciamento de vagas para que vocês possam controlar de forma
 
 ## Instalação
 
-### É necessario ter o node 18.17.0 ou superior
+### É necessario ter o node 18.17.0 ou superior.
 
 #### Instale o yarn
 ```bash
@@ -24,12 +24,19 @@ Repositório de gerenciamento de vagas para que vocês possam controlar de forma
   yarn install
 ```
 
-Feito isso, é necessario gerar o banco de dados e as migrations com o Prisma
+Feito isso, é necessario gerar o banco de dados e as migrations com o Prisma.
 
 ```bash
     npx prisma generate
     npx prisma migrate dev
 ```
+
+Inicie o sistema.
+
+```bash
+  yarn dev
+```
+
 ## O Sistema
 No sistema em questão, é possível cadastrar os seguintes campos:
 
