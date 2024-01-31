@@ -8,30 +8,30 @@ Repositório de gerenciamento de vagas para que vocês possam controlar de forma
 
 ### É necessario ter o node 18.17.0 ou superior.
 
-#### Instale o yarn
+#### Instale o yarn.
 ```bash
   npm install --global yarn
 ```
     
-#### Verifique a versão do yarn
+#### Verifique a versão do yarn.
 ```bash
   yarn --version
 ```
         
-#### Instale as dependencias
+#### Instale as dependencias.
 ```bash
   cd jobs-grid
   yarn install
 ```
 
-Feito isso, é necessario gerar o banco de dados e as migrations com o Prisma.
+#### Feito isso, é necessario gerar o banco de dados e as migrations com o Prisma.
 
 ```bash
     npx prisma generate
     npx prisma migrate dev
 ```
 
-Inicie o sistema.
+#### Inicie o sistema.
 
 ```bash
   yarn dev
