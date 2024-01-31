@@ -59,3 +59,19 @@ No sistema em questão, é possível cadastrar os seguintes campos:
 - Se você enviou ou não mensagem ao recrutador
 
 - Se você enviou ou não mensagem ao tech lead
+
+```js
+model Job {
+  id      String  @id @default(cuid())
+  title   String
+  company String
+  applicationDate DateTime @default(now())
+  hasResponse Boolean
+  isClosed Boolean
+  recruiterLinkedIn String
+  techLeadLinkedIn String
+  jobDetailsURL String
+  sendedRecruiterMessage Boolean @default(false)
+  sendedTechLeadMessage Boolean @default(false)
+}
+```
