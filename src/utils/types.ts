@@ -8,8 +8,8 @@ export type TJobs = {
   recruiterLinkedIn: string;
   techLeadLinkedIn: string;
   jobDetailsURL: string;
-  sendedRecruiterMessage: boolean;
-  sendedTechLeadMessage: boolean;
+  sendedRecruiterMessage?: boolean;
+  sendedTechLeadMessage?: boolean;
 };
 
 export type TJobsData = {
